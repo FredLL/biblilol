@@ -1,8 +1,12 @@
 const webpack = require('webpack');
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const config = {
-  entry: './src/index.tsx',
+module.exports = (env, options) => ({
+  mode: options.mode,
+  entry: [
+    './src/index.tsx'
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
@@ -16,10 +20,30 @@ const config = {
       }
     ]
   },
+  devtool: options.mode === 'development' && 'inline-source-map',
+  devServer: {
+    'static': {
+      directory: './dist'
+    },
+    hot: true,
+    https: true
+  },
   resolve: {
     extensions: [
       '.tsx',
-      '.ts'
-    ]
-  }
-}
+      '.ts',
+      '.js',
+      '.jsx'
+    ],
+    alias: {
+      
+    }
+  },
+  "plugins": [
+    new HtmlWebpackPlugin({
+      templateContent: ({ htmlWebpackPlugin }) => '<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>' + htmlWebpackPlugin.options.title + '</title></head><body><div id=\"root\"></div></body></html>',
+      filename: 'index.html',
+      title: 'BibliLoL'
+    })
+  ]
+});
