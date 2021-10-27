@@ -68,19 +68,19 @@ export const App = () => {
       <div>
         <button onClick={unPause} disabled={!pause}>UnPause</button>
       </div>
-      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
         {
           book ? Object.entries(book).map(([key, val]) => <Fragment key={key} >
-            <div style={{flexGrow: 1, width: '50%', height: '3rem'}}>{key}</div>
-            <div style={{flexGrow: 1, width: '50%', height: '3rem'}} >{
+            <div style={{flex:'1 1 50%', height: '3rem'}}>{key}</div>
+            <div style={{flex:'1 1 50%', height: '3rem'}} >{
             typeof val === 'string' || typeof val === 'number' ? val : JSON.stringify(val) 
             }</div>
           </Fragment>) : null
         }
         {
           authors ? authors.map(author => <Fragment key={author.name}>
-            <div style={{flexGrow: 1, width: '50%', height: '3rem'}}>Author</div>
-            <div style={{flexGrow: 1, width: '50%', height: '3rem'}}>{author.personal_name}</div>
+            <div style={{flex:'1 1 50%', height: '3rem'}}>Author</div>
+            <div style={{flex:'1 1 50%', height: '3rem'}}>{author.personal_name}</div>
           </Fragment>) : null
         }
         {
