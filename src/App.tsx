@@ -29,6 +29,7 @@ export const App = () => {
 
   const update = useCallback((err, code) => {
     if (!pause && code && code.text) {
+      setPause(true);
       axios.get<BookProps>(`https://openlibrary.org/isbn/${code.text}.json`)
         .then(result => {
           if (result.data) {
@@ -46,10 +47,17 @@ export const App = () => {
               result.data.covers.length && setCoverUrl(`https://covers.openlibrary.org/b/id/${result.data.covers[0]}-M.jpg`)
             }
           }
-          setPause(true);
-          setError("");
+          if (result.status == 200) {
+            setError(""); 
+          } else {
+            setPause(false);
+            setError(`code: ${result.status} ${result.statusText}`);
+          }
         })
-        .catch(e => setError(e.message || e))
+        .catch(e => {
+          setPause(false);
+          setError(e.message || e);
+        })
     }
     if (!pause && err) {
       if (err.message) {
